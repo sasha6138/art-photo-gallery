@@ -6,6 +6,18 @@ Create a portfolio website for an artist to present her artistic achievements, i
 
 This document summarizes the requirements agreed during the project conversation. Items labeled **Current** are implemented in the present prototype. Items labeled **Planned** describe the intended content-management solution. Items labeled **Future** are explicitly deferred.
 
+### Dynamic collection implementation update
+
+The first persistent-content milestone is now implemented in source:
+
+- D1 tables store categories, works, image metadata, artist information, and links.
+- R2 stores separate original, display, and thumbnail objects for new uploads.
+- The six bundled sample works are seeded into D1 during the first migration.
+- Public Gallery rendering reads published, non-archived works from D1.
+- An authorized administrator can add a draft, edit metadata or replace its image, publish it, and archive it.
+- Every Admin API read and write repeats server-side authentication and allowlist authorization.
+- Profile, links, category management, preview, unpublish, and permanent delete remain in the next Admin iteration; their underlying tables are present.
+
 ## 2. Users
 
 ### Public visitor
@@ -205,3 +217,4 @@ The following information remains to be supplied or selected:
 ## 8. Acceptance criteria for the next content-management phase
 
 The first dynamic release is complete when an authorized administrator can sign in, create a draft work with an uploaded image, assign a category, publish it, and see it appear in the public gallery without changing source code or redeploying the application. Unauthorized users must be unable to perform or invoke any administrative write operation.
+

@@ -1,16 +1,13 @@
 import Image from "next/image";
 import type { Work } from "@/types/gallery";
 
-export default function Hero({ featured, onOpen }: { featured: Work; onOpen: () => void }) {
+export default function Hero({ featured, headline, introduction, onOpen }: { featured: Work; headline: string; introduction: string; onOpen: () => void }) {
   return (
     <section className="hero" id="home">
       <div className="hero-copy">
         <p className="eyebrow">Artist portfolio · Selected works</p>
-        <h1>Where intuition becomes form.</h1>
-        <p className="lede">
-          An evolving collection of paintings, works on paper, and photographs
-          shaped by atmosphere, place, and memory.
-        </p>
+        <h1>{headline}</h1>
+        <p className="lede">{introduction}</p>
         <a className="text-link" href="#art">Enter the collection <span>→</span></a>
       </div>
       <button
@@ -33,3 +30,4 @@ export default function Hero({ featured, onOpen }: { featured: Work; onOpen: () 
     </section>
   );
 }
+

@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { artWorks, photoWorks, works } from "@/data/sample-works";
-import type { Work } from "@/types/gallery";
+import type { GalleryLink, GalleryProfile, Work } from "@/types/gallery";
 import CollectionSection from "./CollectionSection";
 import Hero from "./Hero";
 import Lightbox from "./Lightbox";
@@ -10,8 +9,11 @@ import LinksAndAbout from "./LinksAndAbout";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 
-export default function GalleryExperience() {
+export default function GalleryExperience({ works, profile, links }: { works: Work[]; profile: GalleryProfile; links: GalleryLink[] }) {
   const [active, setActive] = useState<Work | null>(null);
+  const artWorks = works.filter((work) => work.kind === "Art");
+  const photoWorks = works.filter((work) => work.kind === "Photo");
+  const featured = photoWorks[0] ?? artWorks[0];
 
   const close = useCallback(() => setActive(null), []);
   const previous = useCallback(() => {
@@ -20,19 +22,23 @@ export default function GalleryExperience() {
       const index = works.findIndex((work) => work.src === current.src);
       return works[(index - 1 + works.length) % works.length];
     });
-  }, []);
+  }, [works]);
   const next = useCallback(() => {
     setActive((current) => {
       if (!current) return null;
       const index = works.findIndex((work) => work.src === current.src);
       return works[(index + 1) % works.length];
     });
-  }, []);
+  }, [works]);
 
   return (
     <main>
-      <SiteHeader />
-      <Hero featured={photoWorks[0]} onOpen={() => setActive(photoWorks[0])} />
+      <SiteHeader works={works} wordmark={profile.wordmark} />
+      {featured ? (
+        <Hero featured={featured} headline={profile.heroHeadline} introduction={profile.heroIntroduction} onOpen={() => setActive(featured)} />
+      ) : (
+        <section className="hero" id="home"><div className="hero-copy"><p className="eyebrow">Artist portfolio</p><h1>{profile.heroHeadline}</h1><p className="lede">The collection is being prepared.</p></div></section>
+      )}
       <CollectionSection
         id="art"
         eyebrow="01 / Art"
@@ -50,11 +56,12 @@ export default function GalleryExperience() {
         variant="photos"
         onOpen={setActive}
       />
-      <LinksAndAbout />
-      <SiteFooter />
+      <LinksAndAbout profile={profile} links={links} />
+      <SiteFooter wordmark={profile.wordmark} />
       {active && (
         <Lightbox active={active} onClose={close} onPrevious={previous} onNext={next} />
       )}
     </main>
   );
 }
+

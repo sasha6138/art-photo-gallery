@@ -9,6 +9,15 @@ The solution contains two experiences within one application:
 
 The design should keep the public presentation visually expressive while keeping administration practical, secure, and easy for the artist to use. Gallery data and uploaded images must survive deployments and must not require source-code editing.
 
+### Implementation status
+
+Phase 1 is implemented with D1 and R2 bindings, a seeded Drizzle migration,
+server-rendered public collection queries, protected image delivery, and
+Add/Edit/Publish/Archive operations in Admin. Uploaded originals are retained
+under private object keys; only display and thumbnail key prefixes are served by
+the public media route. The next Admin iteration will expose profile, link, and
+category-management controls over the tables already included in the schema.
+
 ## 2. Technology baseline
 
 | Concern | Current / proposed technology |
@@ -356,3 +365,4 @@ R2 image object keys should be versioned or content-addressed. Replacing image b
 ## 14. Key architectural decision
 
 Use one React application with a public Gallery and a protected `/admin` section, backed by D1 and R2. This provides the simplest deployment and shared content model within ChatGPT Sites while maintaining a clear server-side security boundary. A separate Admin application can be introduced later if organizational ownership, independent release schedules, or a larger editorial team justify the added operational complexity.
+
