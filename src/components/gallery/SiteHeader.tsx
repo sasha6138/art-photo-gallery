@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { artWorks, categoryAnchor, photoWorks } from "@/data/sample-works";
+import { categoryAnchor } from "@/data/sample-works";
+import type { Work } from "@/types/gallery";
 
-export default function SiteHeader() {
+export default function SiteHeader({ works, wordmark }: { works: Work[]; wordmark: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+  const artCategories = [...new Set(works.filter((work) => work.kind === "Art").map((work) => work.category))];
+  const photoCategories = [...new Set(works.filter((work) => work.kind === "Photo").map((work) => work.category))];
 
   return (
     <header className="site-header">
       <a className="wordmark" href="#home" aria-label="Artist portfolio home">
-        STUDIO / GALLERY
+        {wordmark}
       </a>
       <button
         className="menu-button"
@@ -25,9 +28,9 @@ export default function SiteHeader() {
         <div className="nav-group">
           <a href="#art" onClick={closeMenu}>Art</a>
           <div className="nav-dropdown">
-            {artWorks.map((work) => (
-              <a key={work.category} href={`#${categoryAnchor(work.category)}`}>
-                {work.category}
+            {artCategories.map((category) => (
+              <a key={category} href={`#${categoryAnchor(category)}`}>
+                {category}
               </a>
             ))}
           </div>
@@ -35,9 +38,9 @@ export default function SiteHeader() {
         <div className="nav-group">
           <a href="#photos" onClick={closeMenu}>Photos</a>
           <div className="nav-dropdown">
-            {photoWorks.map((work) => (
-              <a key={work.category} href={`#${categoryAnchor(work.category)}`}>
-                {work.category}
+            {photoCategories.map((category) => (
+              <a key={category} href={`#${categoryAnchor(category)}`}>
+                {category}
               </a>
             ))}
           </div>
@@ -48,3 +51,4 @@ export default function SiteHeader() {
     </header>
   );
 }
+

@@ -15,7 +15,7 @@ export default function GalleryCard({ work, onOpen }: GalleryCardProps) {
     >
       <span className="work-image">
         <Image
-          src={work.src}
+          src={work.thumbnailSrc ?? work.src}
           alt={work.alt}
           fill
           sizes="(max-width: 760px) 92vw, 33vw"
@@ -32,3 +32,4 @@ export default function GalleryCard({ work, onOpen }: GalleryCardProps) {
     </button>
   );
 }
+

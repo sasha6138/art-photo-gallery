@@ -50,3 +50,5 @@ export default function Lightbox({ active, onClose, onPrevious, onNext }: Lightb
     </div>
   );
 }
+
+
